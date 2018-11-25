@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>CS1LEGACY</title>
-  
+  <title>LEGACY</title>
+  <link rel="icon" type="image/ico" href="icon.png" />
   
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/components/reset.min.css'>
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/components/site.css'>
@@ -143,6 +143,26 @@
             </div>
         </div>
       </div>
+              
+            <div class="row" id="butab" style="display: none;">
+        <div class="center aligned column">
+                    <button class="btn btn-outline-secondary border border-dark" type="button" onclick="showfromFirebase()" style="margin-top:5%;;">Show Table</button>
+            </div></div>  
+        
+       <div id="count" style="display: none;font-family:sans-serif;"> Count : <span id="cnt"></span></div>
+        <table id="tabel" class="table table-hover table-bordered results" style="text-align: center;margin-top: 20px;visibility: hidden;">
+  <thead>
+    <tr>
+        <th>Names</th>
+        
+    </tr>
+    <tr class="warning no-result">
+      <td colspan="10" id="nob" style="display: none;"><i class="fa fa-warning"></i> No one's in   :"( </td>
+    </tr>
+  </thead>
+  <tbody id="pawow">
+  </tbody>
+</table>
     </div>
   </div>
 
@@ -153,26 +173,17 @@
     <div class="ui container">
       <div class="ui stackable inverted divided equal height stackable grid">
         <div class="three wide column">
-          <h4 class="ui inverted header">About</h4>
+          <h4 class="ui inverted header">Footer</h4>
           <div class="ui inverted link list">
-            <a href="#" class="item">Sitemap</a>
-            <a href="#" class="item">Contact Us</a>
-            <a href="#" class="item">Religious Ceremonies</a>
-            <a href="#" class="item">Gazebo Plans</a>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header">Services</h4>
-          <div class="ui inverted link list">
-            <a href="#" class="item">Banana Pre-Order</a>
-            <a href="#" class="item">DNA FAQ</a>
-            <a href="#" class="item">How To Access</a>
-            <a href="#" class="item">Favorite X-Men</a>
+            <a href="https://www.youtube.com/watch?v=wsixsRI-Sz4" class="item">E-man</a>
+            <a href="https://www.wikihow.com/Find-Yourself" class="item">Necessity</a>
+            <a href="https://www.youtube.com/watch?v=uuCExYQHtK0" class="item">For all the Jake Paulers</a>
+            <a href="https://fizzle.co/sparkline/motivation" class="item">MOTIVATION</a>
           </div>
         </div>
         <div class="seven wide column">
-          <h4 class="ui inverted header">Footer Header</h4>
-          <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+          <h4 class="ui inverted header">Motto</h4>
+          <p>Fuck Hitler.</p>
         </div>
       </div>
     </div>
@@ -205,13 +216,13 @@
 </script>
 
 <script>
+    
+
     function saveToFirebase() {
     var name=document.getElementById("namee").value;
     var tableObject = {
         name: name
     };
-        console.log(firebase.database().ref());
-        console.log(tableObject);
     firebase.database().ref('table-entries').push().set(tableObject)
         .then(function(snapshot) {console.log(snapshot);
             gentable(); // some success method
@@ -220,6 +231,59 @@
             error(); // some error method
         });
 }
+    
+    
+    
+    
+function showfromFirebase()
+    {
+    var ref = firebase.database().ref('table-entries');
+        var co = document.getElementById("count");
+        var taa=document.getElementById("tabel");
+        taa.style.visibility="visible";
+ref.on("value", function(snapshot) {
+   console.log(snapshot.val());
+    var returnArr = [];
+
+    snapshot.forEach(function(childSnapshot) {
+        var item = childSnapshot.val();
+        item.key = childSnapshot.key;
+
+        returnArr.push(item);
+    });
+
+    var tr = document.getElementById('pawow');
+    tr.innerHTML =  '';
+    var x = document.getElementById("nob");
+    console.log(returnArr.length);
+    
+    var coo = document.getElementById("cnt");
+    coo.innerHTML=returnArr.length;
+        co.style.display="block";
+    if(returnArr.length==0)
+        {
+            x.style.display = "block";
+        }
+    else
+        {
+            x.innerHTML='';
+        }
+                 var i=0;
+                        while(i<returnArr.length)
+                            {
+                     var tr = document.createElement('tr');
+    tr.innerHTML =  '<td>'+returnArr[i].name+'</td>\
+                    </tr>';
+    document.getElementById("pawow").appendChild(tr);
+                                i++;
+                    } 
+    
+}, function (error) {
+   console.log("Error: " + error.code);
+});    
+    }
+    
+
 </script>
 
 </body>
