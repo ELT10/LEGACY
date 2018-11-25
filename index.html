@@ -188,8 +188,6 @@
   
 
     <script  src="js/index.js"></script>
-    <script  src="js/fireba.js"></script>
-    
 
 
 <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
@@ -208,12 +206,13 @@
 
 <script>
     function saveToFirebase() {
-    var name=document.getElementById("namee");
+    var name=document.getElementById("namee").value;
     var tableObject = {
-        name: namee
+        name: name
     };
         console.log(firebase.database().ref());
-    firebase.database().ref('table-entries').set(tableObject)
+        console.log(tableObject);
+    firebase.database().ref('table-entries').push().set(tableObject)
         .then(function(snapshot) {console.log(snapshot);
             gentable(); // some success method
         }, function(error) {
