@@ -24,10 +24,13 @@ $(document)
 
 function inn() {
     var x = document.getElementById("neww");
+    var y = document.getElementById("butab");
     if (x.style.display === "none") {
         x.style.display = "block";
+        y.style.display = "block";
         document.getElementById('neww').scrollIntoView();
     } else {
         x.style.display = "none";
+        y.style.display = "none";
     }
 }
